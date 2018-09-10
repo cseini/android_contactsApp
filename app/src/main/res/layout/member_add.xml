@@ -2,131 +2,126 @@
 <LinearLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/kakao"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UPDATE"
+        android:text="ADD"
         android:textSize="30dp"
         android:gravity="center"/>
     <LinearLayout
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="150dp"
-            android:layout_height="250dp">
+            android:layout_height="wrap_content"
+            >
             <ImageView
                 android:id="@+id/profile"
                 android:background="@drawable/layout_border"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
-            <Button
-                android:id="@+id/takePicture"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="이미지"/>
+
         </LinearLayout>
         <LinearLayout
             android:layout_marginLeft="10dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="300dp">
-            <LinearLayout android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/profileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="profile_"/>
+            <Button
+                android:id="@+id/imgBtn"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="NAME "/>
-                <EditText
-                    android:id="@+id/textName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint=":"/>
-            </LinearLayout>
-            <LinearLayout android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="PASSWORD "/>
-                <EditText
-                    android:id="@+id/textPw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint=":"/>
-            </LinearLayout>
-            <LinearLayout android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="Email "/>
-                <EditText
-                    android:id="@+id/textEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint=":"/>
-            </LinearLayout>
-            <LinearLayout android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="PHONE "/>
-                <EditText
-                    android:id="@+id/textPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint=":"/>
-            </LinearLayout>
-            <LinearLayout android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:text="ADDRESS "/>
-                <EditText
-                    android:id="@+id/textAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint=":"/>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="이미지 가져오기"
+                android:backgroundTint="#ffeb00"/>
+
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_height="wrap_content">
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="NAME "/>
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=":"/>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Email "/>
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=":"/>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="PHONE "/>
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=":"/>
+        </LinearLayout>
+        <LinearLayout android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="ADDRESS "/>
+            <EditText
+                android:id="@+id/addr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=":"/>
+        </LinearLayout>
         <Button
-            android:id="@+id/confirmBtn"
-            android:layout_width="200dp"
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONFIRM"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:text="생성하기"
+            android:backgroundTint="#ffeb00"/>
         <Button
-            android:id="@+id/cancelBtn"
-            android:layout_width="200dp"
+            android:id="@+id/listBtn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CANCEL"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:text="돌아가기"
+            android:backgroundTint="#ffeb00"/>
     </LinearLayout>
 </LinearLayout>

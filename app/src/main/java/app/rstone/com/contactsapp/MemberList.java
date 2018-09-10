@@ -118,60 +118,6 @@ public class MemberList extends AppCompatActivity {
             return list;
         }
     }
-    private class MemberAdapter extends BaseAdapter{
-        ArrayList<Main.Member> list;
-        LayoutInflater inflater;
-
-        public MemberAdapter(Context __this,ArrayList<Member> list) {
-            this.list = list;
-            this.inflater = LayoutInflater.from(__this);
-        }
-        private int[] photos = {
-                R.drawable.profile_1,
-                R.drawable.profile_2,
-                R.drawable.profile_3,
-                R.drawable.profile_4,
-                R.drawable.profile_5,
-        };
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return list.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View v, ViewGroup g) {
-            ViewHolder holder;
-            if(v==null){
-                v=inflater.inflate(R.layout.member_item,null);
-                holder = new ViewHolder();
-                holder.profile = v.findViewById(R.id.profile);
-                holder.name = v.findViewById(R.id.name);
-                holder.phone = v.findViewById(R.id.phone);
-                v.setTag(holder);
-            }else{
-                holder = (ViewHolder) v.getTag();
-            }
-            holder.profile.setImageResource(photos[i]);
-            holder.name.setText(list.get(i).name);
-            holder.phone.setText(list.get(i).phone);
-            return v;
-        }
-    }
-    static class ViewHolder{
-        ImageView profile;
-        TextView name, phone;
-    }
     private class deleteQuery extends Main.QueryFactory {
         SQLiteOpenHelper helper;
         public deleteQuery(Context __this) {
@@ -193,5 +139,100 @@ public class MemberList extends AppCompatActivity {
             getDatabase().execSQL(String.format("DELETE FROM %s WHERE %s LIKE '%s'",MEMTAB,MEMSEQ,id));
         }
     }
+    private class MemberAdapter extends BaseAdapter{
+        ArrayList<Main.Member> list;
+        LayoutInflater inflater;
+        Context _this;
 
+        public MemberAdapter(Context _this,ArrayList<Main.Member> list) {
+            this.list = list;
+            this.inflater = LayoutInflater.from(_this);
+            this._this = _this;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return list.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View v, ViewGroup g) {
+            ViewHolder holder;
+            if(v==null){
+                v = inflater.inflate(R.layout.member_item,null);
+                holder = new ViewHolder();
+                holder.profile = v.findViewById(R.id.profile);
+                holder.name = v.findViewById(R.id.name);
+                holder.phone = v.findViewById(R.id.phone);
+                v.setTag(holder);
+            }else{
+                holder = (ViewHolder)v.getTag();
+            }
+            ItemProfile query = new ItemProfile(_this);
+            query.seq = list.get(i).seq+"";
+            holder.profile
+                    .setImageDrawable(
+                            getResources().getDrawable(
+                                    getResources().getIdentifier(
+                                            _this.getPackageName()+":drawable/"
+                                                    + (new Main.RetrieveService() {
+                                                @Override
+                                                public Object perform() {
+                                                    return query.execute();
+                                                }
+                                            }.perform())
+                                            , null, null
+                                    ), _this.getTheme()
+                            )
+                    );
+            holder.name.setText(list.get(i).name);
+            holder.phone.setText(list.get(i).phone);
+            return v;
+        }
+    }
+    static class ViewHolder{
+        ImageView profile;
+        TextView name,phone;
+    }
+    private class MemberProfileQuery extends QueryFactory{
+        SQLiteOpenHelper helper;
+        public MemberProfileQuery(Context _this) {
+            super(_this);
+            helper = new SQLiteHelper(_this);
+        }
+
+        @Override
+        public SQLiteDatabase getDatabase() {
+            return helper.getReadableDatabase();
+        }
+    }
+    private class ItemProfile extends MemberProfileQuery{
+        String seq;
+        public ItemProfile(Context _this) {
+            super(_this);
+        }
+        public String execute(){
+            Cursor c = getDatabase()
+                    .rawQuery(String.format(
+                            " SELECT %s FROM %s WHERE %s LIKE '%s' "
+                            , MEMPHOTO, MEMTAB, MEMSEQ, seq),null);
+            String result = "";
+            if(c != null){
+                if(c.moveToNext()){
+                    result = c.getString(c.getColumnIndex(MEMPHOTO));
+                }
+            }
+            return result;
+        }
+    }
 }

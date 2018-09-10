@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import app.rstone.com.contactsapp.util.PhoneUtil;
 
 import static app.rstone.com.contactsapp.Main.*;
 
@@ -28,9 +29,9 @@ public class MemberDetail extends AppCompatActivity {
         String seq2 = intent.getStringExtra("seq");
         Log.d("넘어온 seq2 값 :::", seq2);
         findViewById(R.id.listBtn).setOnClickListener(
-                (View v) -> {
-                    startActivity(new Intent(__this, MemberList.class));
-                }
+            (View v) -> {
+                startActivity(new Intent(__this, MemberList.class));
+            }
         );
 
         ItemRetrieve query = new ItemRetrieve(__this);
@@ -61,13 +62,22 @@ public class MemberDetail extends AppCompatActivity {
         );
         findViewById(R.id.callBtn).setOnClickListener(
                 (View v) -> {
-
+                    PhoneUtil util = new PhoneUtil(__this,this);
+                    util.setPhoneNumber(phone.getText().toString());
+                    util.call();
                 }
         );
         findViewById(R.id.dialBtn).setOnClickListener(
                 (View v)->{
-                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+m.phone)));
+                    PhoneUtil util = new PhoneUtil(__this,this);
+                    util.setPhoneNumber(phone.getText().toString());
+                    util.dial();
                 }
+        );
+        findViewById(R.id.mapBtn).setOnClickListener(
+                (View v)->{
+                    startActivity(new Intent(__this,MapsActivity.class));
+            }
         );
     }
     private class RetriveQuery extends Main.QueryFactory{

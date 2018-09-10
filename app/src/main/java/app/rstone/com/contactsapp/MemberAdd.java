@@ -8,6 +8,8 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,41 +22,55 @@ import static app.rstone.com.contactsapp.Main.MEMPW;
 import static app.rstone.com.contactsapp.Main.MEMTAB;
 
 public class MemberAdd extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.member_add);
-        final Context __this = MemberAdd.this;
-        findViewById(R.id.confirmBtn).setOnClickListener(
+        final Context _this = MemberAdd.this;
+        EditText name = findViewById(R.id.name);
+        EditText email = findViewById(R.id.email);
+        EditText phone = findViewById(R.id.phone);
+        EditText addr = findViewById(R.id.addr);
+        EditText photo = findViewById(R.id.profileName);
+        ImageView img = findViewById(R.id.profile);
+        findViewById(R.id.imgBtn).setOnClickListener(
                 (View v)->{
-                    ItemAdd addQuery = new ItemAdd(__this);
-                    TextView name = findViewById(R.id.textName);
-                    TextView pw = findViewById(R.id.textPw);
-                    TextView email = findViewById(R.id.textEmail);
-                    TextView phone = findViewById(R.id.textPhone);
-                    TextView addr = findViewById(R.id.textAddress);
-                    ImageView profile = findViewById(R.id.profile);
-                    addQuery.m.name = name.getText().toString();
-                    addQuery.m.pw = pw.getText().toString();
-                    addQuery.m.email = email.getText().toString();
-                    addQuery.m.phone = phone.getText().toString();
-                    addQuery.m.addr = addr.getText().toString();
-                    addQuery.execute();
-                    startActivity(new Intent(__this,MemberList.class));
+                    img.setImageDrawable(getResources().getDrawable(
+                            getResources().getIdentifier(
+                                    this.getPackageName()+":drawable/"+photo.getText().toString(),
+                                    null, null
+                            ), _this.getTheme()));
+                    img.setTag(photo.getText().toString());
                 }
         );
-        findViewById(R.id.cancelBtn).setOnClickListener(
+        findViewById(R.id.addBtn).setOnClickListener(
                 (View v)->{
-                    startActivity(new Intent(__this,MemberList.class));
+                    ItemAdd query = new ItemAdd(_this);
+                    query.m.phone = ((phone.getText()+"").equals(""))? "" : phone.getText()+"";
+                    query.m.email = ((email.getText()+"").equals(""))? "" : email.getText()+"";
+                    query.m.addr = ((addr.getText()+"").equals(""))? "" : addr.getText()+"";
+                    query.m.name = ((name.getText()+"").equals(""))? "" : name.getText()+"";
+                    query.m.photo = (img.getTag().toString().equals(""))? "profile_1" :img.getTag().toString();
+                    new Main.StatusService() {
+                        @Override
+                        public void perform() {
+                            query.execute();
+                        }
+                    }.perform();
+                    startActivity(new Intent(_this, MemberList.class));
+                }
+        );
+        findViewById(R.id.listBtn).setOnClickListener(
+                (View v)->{
+                    this.startActivity(new Intent(_this, MemberList.class));
                 }
         );
     }
-    private class addQuery extends Main.QueryFactory {
+    private class MemberInsertQuery extends Main.QueryFactory{
         SQLiteOpenHelper helper;
-        public addQuery(Context __this) {
-            super(__this);
-            helper = new Main.SQLiteHelper(__this);
+        public MemberInsertQuery(Context _this) {
+            super(_this);
+            helper = new Main.SQLiteHelper(_this);
         }
 
         @Override
@@ -62,19 +78,22 @@ public class MemberAdd extends AppCompatActivity {
             return helper.getWritableDatabase();
         }
     }
-    private class ItemAdd extends addQuery {
+    private class ItemAdd extends MemberInsertQuery{
         Main.Member m;
-        public ItemAdd(Context __this) {
-            super(__this);
+        public ItemAdd(Context _this) {
+            super(_this);
             m = new Main.Member();
         }
         public void execute(){
-            getDatabase().execSQL(String.format(
-                " INSERT INTO %s "+
-                        " (%s, %s, %s, %s, %s, %s) VALUES " +
-                        " ('%s', '%s', '%s', '%s', '%s', '%s') ",
-                MEMTAB, MEMNAME, MEMPW, MEMEMAIL, MEMPHONE, MEMADDR, MEMPHOTO,
-                m.name, m.pw, m.email, m.phone, m.addr, "profile_1"));
+            getDatabase().execSQL(
+                    String.format(
+                            " INSERT INTO  %s "
+                                    + " ( %s , %s , %s , %s , %s , %s ) "
+                                    + " VALUES "
+                                    + " ( '%s', '%s', '%s', '%s', '%s', '%s' ) "
+                            , MEMTAB
+                            , MEMNAME, MEMPW, MEMEMAIL, MEMPHONE, MEMADDR, MEMPHOTO
+                            , m.name, "1", m.email, m.phone, m.addr, m.photo ));
         }
     }
 }
